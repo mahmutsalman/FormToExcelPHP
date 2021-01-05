@@ -8,7 +8,7 @@
 <body>
 
     <form method="post">
-    <p>ÜRÜN ADI <input type="text" name="name" /></p>
+    <p>ÜRÜN ADIo <input type="text" name="name" /></p>
     <p>MODEL <input type="text" name="age" /></p>
     <p>ÖLÇÜ <input type="text" name="name" /></p>
     <p>RENK <input type="text" name="age" /></p>
