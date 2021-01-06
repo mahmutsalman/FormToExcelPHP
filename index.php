@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="action.php" method="post">
+    <form action="urunDetay.php" method="post">
         <p>Firma adı: <input type="text" name="firmaAdi" /></p>
         <p>Yetkili adı: <input type="text" name="yetkiliAdi" /></p>
         <p>Telefon: <input type="text" name="telefonNumarasi" /></p>
