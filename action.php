@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $sheet->setCellValue('A3','FİYAT TEKLİFİ');
-$sheet->setCellValue('A4', 'FİRMA ADI !');
+$sheet->setCellValue('A4', 'FİRMA ADI');
 $sheet->setCellValue('A5', 'YETKİLİ ADI');
 $sheet->setCellValue('A6', 'TELEFON');
 $sheet->setCellValue('A7','E-POSTA');
@@ -24,7 +24,6 @@ $sheet->setCellValue('F10','MİKTAR');
 $sheet->setCellValue('G10','BİRİM FİYATI ');
 $sheet->setCellValue('H10','TUTAR');
 $sheet->setCellValue('I10','GÖRSEL ');
-
 
 
 
