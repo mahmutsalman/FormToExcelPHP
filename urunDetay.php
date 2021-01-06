@@ -12,7 +12,6 @@
             $olcu=  $_POST['olcu'];
             $renk=  $_POST['renk'];
             $miktar=  $_POST['miktar'];
-            $birim=  $_POST['urunAdi'];
             $birimFiyati=  $_POST['birimFiyati'];
             $tutar=  $_POST['tutar'];
             $görsel=  $_POST['görsel'];
