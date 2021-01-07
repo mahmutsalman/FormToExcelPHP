@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('config.php');
-// phpinfo();
+ require_once('config.php');
+//  phpinfo();
 ?>
 
 
@@ -22,12 +22,13 @@ require_once('config.php');
         <p>E-posta: <input type="text" name="eposta" /></p>
         <p>Fatura adresi: <input type="text" name="faturaAdresi" /></p>
         <p>Vergi Dairesi/No <input type="text" name="vergiDaireNo" /></p>
-        <p><input type="submit" /></p>
+        <input class="btn btn-primary" type="submit" name="submit" value="Yolla">
         <a href="urunDetay.php" class="mt-5 mb-3 text-muted">İleri</a>
     </form>
     <?php
    
     if (isset($_POST['submit'])) {
+     
         $firmaAdi =  $_POST['firmaAdi'];
         $yetkiliAdi =  $_POST['yetkiliAdi'];
         $telefonNumarasi =  $_POST['telefonNumarasi'];
@@ -36,7 +37,17 @@ require_once('config.php');
         $vergiDaireNo =  $_POST['vergiDaireNo'];
 
         $sql="INSERT INTO form1 (firmaAdi,yetkiliAdi,telefonNumarasi,eposta,faturaAdresi,vergiDaireNo) 
-        VALUES ('$firmaAdi','$yetkiliAdi',$telefonNumaras,$eposta, $faturaAdresi,$vergiDaireNo)";
+        VALUES ('$firmaAdi','$yetkiliAdi','$telefonNumarasi','$eposta', '$faturaAdresi','$vergiDaireNo')";
+        $stmt = $db->prepare($sql);
+        $result = $stmt->execute();
+        if($result){
+            echo '<script type="text/javascript"> alert(" İndirim Başarıyla Yapıldı.") </script>';
+        }
+        else
+        echo '<script type="text/javascript"> alert(" Hata") </script>';
+        
+       
+
     }
     ?>
 

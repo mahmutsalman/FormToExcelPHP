@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
+$servername = "localhost:3308";
 $username = "root";
 $password = "";
-$dbname = "angdb";
+$dbname = "form_to_excel";
 $db = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($db->connect_error) {
