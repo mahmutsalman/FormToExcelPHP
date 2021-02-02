@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once('config.php');
 
 require 'vendor/autoload.php';
 
@@ -18,10 +19,39 @@ $sheet->setCellValue('A8','FATURA ADRESİ');
 $sheet->setCellValue('A9','VERGİ DAİRESİ/NO');
 $sheet->setCellValue('A10','S.NO');
 
+$row = 11;
+$lastColumn = $sheet->getHighestColumn();
+$lastColumn++;
+for($column  ='A';$column !=$lastColumn; $column++){
+    $cell = $sheet->getCell($column.$row);
+    //Do what you want wtih the cell
+}
+
+// $sql  ="SELECT .... FROM ` ... ` WHERE  ";
+// $result = mysql_query($sql);
+// $row = 11; // 1-based index
+// $column = 1;
+
+
+// while($data = mysql_fetch_assoc($result)) {
+//     $sheet->setCellValueByColumnAndRow($column, $row, $data['ptlum']);
+//     $column = $column + 1; //or $column++; if you prefer
+// }
+
+$sql  ="SELECT firmaAdi,yetkiliAdi,telefonNumarasi,eposta,faturaAdresi,vergiDaireNo FROM form1";
+$result  = $db->query($sql);
+
+if($result->num_rows > 0 ){
+
+    while($row = $result->fetch_assoc()){
+        echo "<tr><td>".$row["firmaAdi"]."</td><td>".$row["yetkiliAdi"]."</td></tr>";
+    }
+}
+
 $sheet->setCellValue('B10','ÜRÜN ADI ');
-$urunAdi=$_SESSION['urunAdi'] ;
-$index=$_SESSION['index'];
-$sheet->setCellValue('B1'.$index,$urunAdi);
+// $urunAdi=$_SESSION['urunAdi'] ;
+// $index=$_SESSION['index']; static olmayacak o yüzden kaldırıyorum
+// $sheet->setCellValue('B1'.$index,$urunAdi);
 
 
 $sheet->setCellValue('C10','MODEL ');
@@ -50,7 +80,7 @@ $writer->save('hello world.xlsx');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Action Page</title>
-    <a href="index.php" class="mt-5 mb-3 text-muted">Back</a>
+    <a href="urunDetay.php" class="mt-5 mb-3 text-muted">Back</a>
 </head>
 <body>
     
