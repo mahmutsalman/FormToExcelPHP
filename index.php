@@ -22,7 +22,7 @@ session_start();
         <p>E-posta: <input type="text" name="eposta" /></p>
         <p>Fatura adresi: <input type="text" name="faturaAdresi" /></p>
         <p>Vergi Dairesi/No <input type="text" name="vergiDaireNo" /></p>
-        <input class="btn btn-primary" type="submit" name="submit" value="Yolla">
+        <input class="btn btn-primary" type="submit" name="submit" value="Send to the database">
         <a href="urunDetay.php" class="mt-5 mb-3 text-muted">İleri</a>
     </form>
     <?php
@@ -30,6 +30,10 @@ session_start();
     if (isset($_POST['submit'])) {
      
         $firmaAdi =  $_POST['firmaAdi'];
+        //Setting session value 'firmaAdi'
+        $_SESSION['firmaAdi']=$firmaAdi;
+        header('Location: urunDetay.php');
+
         $yetkiliAdi =  $_POST['yetkiliAdi'];
         $telefonNumarasi =  $_POST['telefonNumarasi'];
         $eposta =  $_POST['eposta'];
@@ -41,10 +45,21 @@ session_start();
         $stmt = $db->prepare($sql);
         $result = $stmt->execute();
         if($result){
-            echo '<script type="text/javascript"> alert(" İndirim Başarıyla Yapıldı.") </script>';
+            echo '<script type="text/javascript"> alert(" Başarılı SQL...") </script>';
         }
         else
         echo '<script type="text/javascript"> alert(" Hata") </script>';
+
+
+        // $sql2="INSERT INTO form2 (firmaAdi) 
+        // VALUES ('$firmaAdi')";
+        // $stmt = $db->prepare($sql2);
+        // $result2 = $stmt->execute();
+        // if($result2){
+        //     echo '<script type="text/javascript"> alert(" Başarılı SQL...") </script>';
+        // }
+        // else
+        // echo '<script type="text/javascript"> alert(" Hata") </script>';
         
        
 
