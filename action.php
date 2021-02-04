@@ -22,7 +22,7 @@ $sheet->setCellValue('A10', 'S.NO');
 $rowToHoldExcelCellLocation = 11;
 $lastColumn = $sheet->getHighestColumn();
 $lastColumn++;
-$column = 'B';
+$column = 2;
 // for($column  ='A';$column !=$lastColumn; $column++){
 //     $cell = $sheet->getCell($column.$rowToHoldExcelCellLocation);
 //     //Do what you want wtih the cell
@@ -47,18 +47,22 @@ $result  = $db->query($sql);
 if ($result->num_rows > 0) {
 
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" . $row["urunAdi"] . "</td></tr>";
+        echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" ."  ". $row["urunAdi"] . "</td></tr>";
+        echo "<h2>" . $lastColumn . "</h2>";
         if (true) {
             // $sheet->setCellValue('B'.$rowToHoldExcelCellLocation,$row["urunAdi"]);
 
-            $column  = 'B';
+          
 
             //TODO find a way to write value in the cell-which type of parameter should I use?-
-            $sheet->setCellValueByColumnAndRow('B', '11', $row["urunAdi"]);
-            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["model"]);
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["urunAdi"]);
             $column++;
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["model"]);
+            
+            // $column++;
         }
-        $column++;
+        $rowToHoldExcelCellLocation++;
+        $column=2;
     }
 }
 
