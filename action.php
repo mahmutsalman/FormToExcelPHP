@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
+// $spreadsheet->getActiveSheet()->mergeCells('100:$200');
 $sheet->setCellValue('A3', 'FİYAT TEKLİFİ');
 $sheet->setCellValue('A4', 'FİRMA ADI');
 $sheet->setCellValue('A5', 'YETKİLİ ADI');
@@ -20,19 +21,12 @@ $sheet->setCellValue('A9', 'VERGİ DAİRESİ/NO');
 $sheet->setCellValue('A10', 'S.NO');
 
 
-
+$rowA = 10;
 //TODO Adding image
 
-$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-$drawing->setName('Paid');
-$drawing->setDescription('Paid');
-$drawing->setPath('images/paid.jpg'); // put your path and image here
-$drawing->setCoordinates('L16');
-$drawing->setOffsetX(110);
-$drawing->setRotation(25);
-$drawing->getShadow()->setVisible(true);
-$drawing->getShadow()->setDirection(45);
-$drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+
+// $drawing->setWidthAndHeight(160,120);//Edit picture width & height
 
 $rowToHoldExcelCellLocation = 11;
 $lastColumn = $sheet->getHighestColumn();
@@ -48,22 +42,6 @@ $column = 2;
 
 
 
-// for($column  ='A';$column !=$lastColumn; $column++){
-//     $cell = $sheet->getCell($column.$rowToHoldExcelCellLocation);
-//     //Do what you want wtih the cell
-// }
-
-// $sql  ="SELECT .... FROM ` ... ` WHERE  ";
-// $result = mysql_query($sql);
-// $row = 11; // 1-based index
-// $column = 1;
-
-
-// while($data = mysql_fetch_assoc($result)) {
-//     $sheet->setCellValueByColumnAndRow($column, $row, $data['ptlum']);
-//     $column = $column + 1; //or $column++; if you prefer
-// }
-
 
 //TODO Add values from database to excel cells
 $sql  = "SELECT firmaAdi,urunAdi,model,olcu,renk,miktar,birimFiyati,tutar,gorsel FROM form2";
@@ -72,22 +50,41 @@ $result  = $db->query($sql);
 if ($result->num_rows > 0) {
 
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" ."  ". $row["urunAdi"] . "</td></tr>";
-        
+        echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" . "  " . $row["urunAdi"] . "</td></tr>";
+
         if (true) {
             // $sheet->setCellValue('B'.$rowToHoldExcelCellLocation,$row["urunAdi"]);
 
-          
 
-            //TODO find a way to write value in the cell-which type of parameter should I use?-
+
+
             $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["urunAdi"]);
             $column++;
             $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["model"]);
+            $column++;
+
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setName('Paid');
+            $drawing->setDescription('Paid');
+            $drawing->setPath('images/paid.jpg'); // put your path and image here
+            $columnA = 'L';
             
+            $drawing->setWidthAndHeight(100, 100);
+            $drawing->setCoordinates($columnA . $rowA);
+            $rowA++;
+            $drawing->setOffsetX(110);
+            $drawing->setRotation(25);
+            $drawing->getShadow()->setVisible(true);
+            $drawing->getShadow()->setDirection(45);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+
+            // $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
             // $column++;
         }
         $rowToHoldExcelCellLocation++;
-        $column=2;
+        $column = 2;
     }
 }
 
