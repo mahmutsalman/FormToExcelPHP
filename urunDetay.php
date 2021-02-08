@@ -10,8 +10,10 @@
             // $_SESSION['index']++;
             
 
-            $firmaAdi=$_SESSION['firmaAdi'];// seems unnecessary
-
+            $firmaAdi=$_SESSION['firmaAdi'];// seems unnecessary but with next step it will be neccesary
+            /*FİYAT TEKLİFİ,YETKİLİ ADI,TELEFON,E-POSTA,FATURA ADRESİ,VERGİ DAİRESİ/NO add this to excel later
+                why using session
+            */
             $model=  $_POST['model'];
             $olcu=  $_POST['olcu'];
             $renk=  $_POST['renk'];

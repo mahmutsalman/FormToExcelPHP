@@ -19,10 +19,35 @@ $sheet->setCellValue('A8', 'FATURA ADRESİ');
 $sheet->setCellValue('A9', 'VERGİ DAİRESİ/NO');
 $sheet->setCellValue('A10', 'S.NO');
 
+
+
+//TODO Adding image
+
+$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+$drawing->setName('Paid');
+$drawing->setDescription('Paid');
+$drawing->setPath('images/paid.jpg'); // put your path and image here
+$drawing->setCoordinates('L16');
+$drawing->setOffsetX(110);
+$drawing->setRotation(25);
+$drawing->getShadow()->setVisible(true);
+$drawing->getShadow()->setDirection(45);
+$drawing->setWorksheet($spreadsheet->getActiveSheet());
+
 $rowToHoldExcelCellLocation = 11;
 $lastColumn = $sheet->getHighestColumn();
-$lastColumn++;
+
 $column = 2;
+//Create style, I guess it's not working
+// $styleArray = [
+//     `font` => [
+//         `bold`=>true,
+//     ]
+// ];
+
+
+
+
 // for($column  ='A';$column !=$lastColumn; $column++){
 //     $cell = $sheet->getCell($column.$rowToHoldExcelCellLocation);
 //     //Do what you want wtih the cell
@@ -48,7 +73,7 @@ if ($result->num_rows > 0) {
 
     while ($row = $result->fetch_assoc()) {
         echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" ."  ". $row["urunAdi"] . "</td></tr>";
-        echo "<h2>" . $lastColumn . "</h2>";
+        
         if (true) {
             // $sheet->setCellValue('B'.$rowToHoldExcelCellLocation,$row["urunAdi"]);
 
@@ -67,6 +92,7 @@ if ($result->num_rows > 0) {
 }
 
 $sheet->setCellValue('B10', 'ÜRÜN ADI ');
+// $sheet->getStyle('B10:'. $lastColumn . `1`)->applyFromArray($styleArray);
 // $urunAdi=$_SESSION['urunAdi'] ;
 // $index=$_SESSION['index']; static olmayacak o yüzden kaldırıyorum
 // $sheet->setCellValue('B1'.$index,$urunAdi);
