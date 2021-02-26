@@ -12,16 +12,35 @@ $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 // $spreadsheet->getActiveSheet()->mergeCells('100:$200');
 $sheet->setCellValue('A3', 'FİYAT TEKLİFİ');
+$sheet->getStyle('A3')->getFont()->setBold(true);
+
+//TODO Merging cells    
+$sheet->mergeCells('A3:H3');
+$sheet->getRowDimension('3')->setRowHeight(35);
+
+
+
+
+// $spreadsheet->getActiveSheet()->getRowDimension('10')->setRowHeight(100);
+// $sheet->getRowDimension('4')->setRowHeight(150);
+// $sheet->getColumnDimension('A')->setWidth(150);
 $sheet->setCellValue('A4', 'FİRMA ADI');
+$sheet->getStyle('A4')->getFont()->setBold(true);
 $sheet->setCellValue('A5', 'YETKİLİ ADI');
+$sheet->getStyle('A5')->getFont()->setBold(true);
 $sheet->setCellValue('A6', 'TELEFON');
+$sheet->getStyle('A6')->getFont()->setBold(true);
 $sheet->setCellValue('A7', 'E-POSTA');
+$sheet->getStyle('A7')->getFont()->setBold(true);
 $sheet->setCellValue('A8', 'FATURA ADRESİ');
+$sheet->getStyle('A8')->getFont()->setBold(true);
 $sheet->setCellValue('A9', 'VERGİ DAİRESİ/NO');
+$sheet->getStyle('A9')->getFont()->setBold(true);
 $sheet->setCellValue('A10', 'S.NO');
+$sheet->getStyle('A10')->getFont()->setBold(true);
 
 
-$rowA = 10;
+$rowA = 11;
 //TODO Adding image
 
 
@@ -32,13 +51,13 @@ $rowToHoldExcelCellLocation = 11;
 $lastColumn = $sheet->getHighestColumn();
 
 $column = 2;
-//Create style, I guess it's not working
-// $styleArray = [
-//     `font` => [
-//         `bold`=>true,
-//     ]
-// ];
 
+
+//TODO Make every cell starting from 'B' to 'I' autosize
+foreach (range('A', 'I') as $columnID) {
+    $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+        ->setAutoSize(true);
+    }
 
 
 
@@ -46,8 +65,8 @@ $column = 2;
 //TODO Add values from database to excel cells
 $sql  = "SELECT firmaAdi,urunAdi,model,olcu,renk,miktar,birimFiyati,tutar,gorsel FROM form2";
 $result  = $db->query($sql);
-
 if ($result->num_rows > 0) {
+
 
     while ($row = $result->fetch_assoc()) {
         echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" . "  " . $row["urunAdi"] . "</td></tr>";
@@ -59,6 +78,8 @@ if ($result->num_rows > 0) {
 
 
             $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["urunAdi"]);
+            
+            
             $column++;
             $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["model"]);
             $column++;
@@ -66,22 +87,22 @@ if ($result->num_rows > 0) {
             $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
             $drawing->setName('Paid');
             $drawing->setDescription('Paid');
-            $drawing->setPath('images/paid.jpg'); // put your path and image here
-            $columnA = 'L';
-            
-            $drawing->setWidthAndHeight(100, 100);
-            $drawing->setCoordinates($columnA . $rowA);
+            //TODO find a variable names for images
+            $drawing->setPath('images/paid.jpg'); // put your path and image here,changing
+
+
+            $columnImageLetter = "H";
+
+
+
+            $drawing->setWidthAndHeight(50, 50);
+            $drawing->setCoordinates($columnImageLetter . $rowA);
             $rowA++;
             $drawing->setOffsetX(110);
-            $drawing->setRotation(25);
+            $drawing->setRotation(0);
             $drawing->getShadow()->setVisible(true);
-            $drawing->getShadow()->setDirection(45);
+            $drawing->getShadow()->setDirection(0);
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
-
-
-            // $drawing->setWorksheet($spreadsheet->getActiveSheet());
-
-            // $column++;
         }
         $rowToHoldExcelCellLocation++;
         $column = 2;
@@ -89,10 +110,7 @@ if ($result->num_rows > 0) {
 }
 
 $sheet->setCellValue('B10', 'ÜRÜN ADI ');
-// $sheet->getStyle('B10:'. $lastColumn . `1`)->applyFromArray($styleArray);
-// $urunAdi=$_SESSION['urunAdi'] ;
-// $index=$_SESSION['index']; static olmayacak o yüzden kaldırıyorum
-// $sheet->setCellValue('B1'.$index,$urunAdi);
+
 
 
 $sheet->setCellValue('C10', 'MODEL ');
