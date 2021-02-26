@@ -13,7 +13,7 @@ $styleArray = [
         'bold' => true,
     ],
     'alignment' => [
-        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
     ],
     'borders' => [
         'top' => [
@@ -87,6 +87,9 @@ foreach (range('A', 'I') as $columnID) {
     $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
         ->setAutoSize(true);
     }
+
+//TODO Make entry in the center
+
 
 
 
