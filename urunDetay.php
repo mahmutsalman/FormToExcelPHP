@@ -20,7 +20,7 @@
             $miktar=  $_POST['miktar'];
             $birimFiyati=  $_POST['birimFiyati'];
             $tutar=  $_POST['tutar'];
-            // $gorsel=  $_POST['gorsel'];
+            //$gorsel=  $_POST['gorsel'];
             //TODO does its location in the code matter ? -header-
             
         

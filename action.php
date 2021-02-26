@@ -8,6 +8,33 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
+$styleArray = [
+    'font' => [
+        'bold' => true,
+    ],
+    'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+    ],
+    'borders' => [
+        'top' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+        ],
+    ],
+    'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
+        'rotation' => 90,
+        'startColor' => [
+            'argb' => 'FFA0A0A0',
+        ],
+        'endColor' => [
+            'argb' => 'FFFFFFFF',
+        ],
+    ],
+];
+
+
+
+
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 // $spreadsheet->getActiveSheet()->mergeCells('100:$200');
@@ -17,6 +44,8 @@ $sheet->getStyle('A3')->getFont()->setBold(true);
 //TODO Merging cells    
 $sheet->mergeCells('A3:H3');
 $sheet->getRowDimension('3')->setRowHeight(35);
+
+$sheet->getStyle('B11')->applyFromArray($styleArray);
 
 
 
@@ -63,8 +92,11 @@ foreach (range('A', 'I') as $columnID) {
 
 
 //TODO Add values from database to excel cells
-$sql  = "SELECT firmaAdi,urunAdi,model,olcu,renk,miktar,birimFiyati,tutar,gorsel FROM form2";
+$sql  = "SELECT firmaAdi,urunAdi,model,olcu,renk,miktar,birimFiyati,tutar FROM form2";
 $result  = $db->query($sql);
+if (!$result) {
+    trigger_error('Invalid query: ' . $conn->error);
+}
 if ($result->num_rows > 0) {
 
 

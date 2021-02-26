@@ -1,5 +1,5 @@
 <?php
-$servername = "localhost:3308";
+$servername = "localhost:3306";
 $username = "root";
 $password = "";
 $dbname = "form_to_excel";
