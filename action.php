@@ -20,16 +20,7 @@ $styleArray = [
             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
         ],
     ],
-    'fill' => [
-        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
-        'rotation' => 90,
-        'startColor' => [
-            'argb' => 'FFA0A0A0',
-        ],
-        'endColor' => [
-            'argb' => 'FFFFFFFF',
-        ],
-    ],
+    
 ];
 
 
@@ -37,11 +28,32 @@ $styleArray = [
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-// $spreadsheet->getActiveSheet()->mergeCells('100:$200');
 $sheet->setCellValue('A3', 'FİYAT TEKLİFİ');
-$sheet->getStyle('A3')->getFont()->setBold(true);
+// $sheet->getStyle('A3')->getFont()->setBold(true);
+$sheet->getStyle('A3')->applyFromArray($styleArray);
+//Setting on the center 
+$sheet->getStyle('A3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-//TODO Merging cells    
+$sheet->getStyle('B10:I10')->getFont()->setBold(true);
+
+//TODO Merging cells   
+
+// $sheet->mergeCells('A1:E1');
+// $sheet->getRowDimension('1')->setRowHeight(35);
+// $sheet->mergeCells('A2:E2');
+// $sheet->getRowDimension('2')->setRowHeight(35);
+
+$sheet->mergeCellsByColumnAndRow(1,1,5,2);
+
+
+
+ 
+
+
+
+
+// $sheet->merge('')
+
 $sheet->mergeCells('A3:H3');
 $sheet->getRowDimension('3')->setRowHeight(35);
 
@@ -88,7 +100,6 @@ foreach (range('A', 'I') as $columnID) {
         ->setAutoSize(true);
     }
 
-//TODO Make entry in the center
 
 
 
@@ -100,14 +111,16 @@ $result  = $db->query($sql);
 if (!$result) {
     trigger_error('Invalid query: ' . $conn->error);
 }
+
+
+
 if ($result->num_rows > 0) {
 
-
+$holdMoney=0;
     while ($row = $result->fetch_assoc()) {
         echo "<tr><td>" . $row["firmaAdi"] . "</td><td>" . "  " . $row["urunAdi"] . "</td></tr>";
 
         if (true) {
-            // $sheet->setCellValue('B'.$rowToHoldExcelCellLocation,$row["urunAdi"]);
 
 
 
@@ -118,6 +131,25 @@ if ($result->num_rows > 0) {
             $column++;
             $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["model"]);
             $column++;
+
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["olcu"]);
+            $column++;
+
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["renk"]);
+            $column++;
+
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["miktar"]);
+            $column++;
+
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["birimFiyati"]);
+            $column++;
+
+            $sheet->setCellValueByColumnAndRow($column, $rowToHoldExcelCellLocation, $row["tutar"]);
+            $column++;
+
+            //TODO Adding 'tutar' values to 'holdMoney' variable
+            $holdMoney+=$sheet->getCell('H'.$rowToHoldExcelCellLocation)->getFormattedValue();
+
 
             $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
             $drawing->setName('Paid');
@@ -139,9 +171,14 @@ if ($result->num_rows > 0) {
             $drawing->getShadow()->setDirection(0);
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
         }
+        
+
         $rowToHoldExcelCellLocation++;
         $column = 2;
     }
+    // Adding sum of products to last cell in column 'H'
+    $sheet->setCellValue('H'.$rowToHoldExcelCellLocation,$holdMoney);
+    
 }
 
 $sheet->setCellValue('B10', 'ÜRÜN ADI ');
